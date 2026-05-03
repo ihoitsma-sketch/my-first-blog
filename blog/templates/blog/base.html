@@ -7,31 +7,26 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext">
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
-        <body>
+    <body>
         <header class="page-header">
-            <div class="container">
-                {% if user.is_authenticated %}
+                <div class="container">
+                    {% if user.is_authenticated %}
                     <a href="{% url 'post_new' %}" class="top-menu">
                         {% include './icons/file-earmark-plus.svg' %}
                     </a>
-                {% endif %}
-                <h1><a href="/">Isabelle Hoitsma's Blog</a></h1>
-            </div>
-        </header>
-        <main class="container">
+                    <a href="{% url 'post_draft_list' %}" class="top-menu">{% include './icons/pencil-square.svg'%}</a>
+                    <p id="logout" class="top-menu">Hello {{ user.username }} <small><a href="{% url 'logout' %}">(Log out)</a></small></p>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="top-menu">{% include './icons/lock-fill.svg' %}</a>
+                    {% endif %}
+                    <h1><a href="/">Isabelle's Blog</a></h1>
+                </div>
+            </header>
+        <main class="content container">
             <div class="row">
                 <div class="col">
-                {% block content %}
-                    {% for post in posts %}
-                        <article class="post">
-                            <time class="date">
-                                {{ post.published_date }}
-                            </time>
-                            <h2><a href="">{{ post.title }}</a></h2>
-                            <p>{{ post.text|linebreaksbr }}</p>
-                        </article>
-                    {% endfor %}
-                {% endblock %}
+                    {% block content %}
+                    {% endblock %}
                 </div>
             </div>
         </main>
